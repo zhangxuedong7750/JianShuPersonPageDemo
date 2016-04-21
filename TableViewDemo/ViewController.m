@@ -35,10 +35,6 @@
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
     
-    
-    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 260)];
-    tableHeaderView.backgroundColor = [UIColor clearColor];
-    
     self.tableView1 = [self createTableViewAtIndex:0];
     [scrollView addSubview:_tableView1];
     
@@ -51,6 +47,7 @@
     [self createheaderView];
 }
 
+//创建页面头
 -(void)createheaderView{
 
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 260)];
@@ -75,6 +72,7 @@
     [headerView addSubview:btn];
 }
 
+//创建tablView
 -(UITableView *)createTableViewAtIndex:(NSInteger)index{
 
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth , 0, kScreenWidth, 260)];
@@ -88,6 +86,7 @@
     return tableView;
 }
 
+//创建tab视图
 -(UIView *)createTabView{
 
     NSArray *arr = @[@"动态",@"文章",@"更多"];
@@ -180,6 +179,7 @@
     [self setTableViewContentOffsetWithTag:scrollView.tag contentOffset:scrollView.contentOffset.y];
 }
 
+//设置tableView的偏移量
 -(void)setTableViewContentOffsetWithTag:(NSInteger)tag contentOffset:(CGFloat)offset{
 
     CGFloat tableViewOffset = offset;
