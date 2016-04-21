@@ -110,7 +110,7 @@
 				TargetAttributes = {
 					E1BA4FCD1CC7AE7F006DFA41 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 4FGRBC462K;
+						DevelopmentTeam = 7YD6YGGJZ5;
 					};
 				};
 			};
@@ -264,10 +264,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TableViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zxd.TableViewDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.soufun.TableViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -276,10 +277,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TableViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zxd.TableViewDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.soufun.TableViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

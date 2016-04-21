@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeigth)];
-    scrollView.backgroundColor = [UIColor clearColor];
+    scrollView.backgroundColor = [UIColor whiteColor];
     scrollView.delegate = self;
     scrollView.pagingEnabled = YES;
     scrollView.contentSize = CGSizeMake(kScreenWidth * 3, kScreenHeigth);
@@ -48,12 +48,31 @@
     self.tableView3 = [self createTableViewAtIndex:2];
     [scrollView addSubview:_tableView3];
     
+    [self createheaderView];
+}
+
+-(void)createheaderView{
+
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 260)];
-    headerView.backgroundColor = [UIColor blueColor];
+    headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:[self createTabView]];
     self.yOffset = headerView.center.y;
     self.headerView = headerView;
     [self.view addSubview:headerView];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, kScreenWidth, 30)];
+    label.textColor = [UIColor grayColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"写了10100字，获得100个喜欢";
+    [headerView addSubview:label];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 100, 40);
+    btn.center = CGPointMake(label.center.x, label.center.y + 40);
+    [btn setTitle:@"编辑个人资料" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [headerView addSubview:btn];
 }
 
 -(UITableView *)createTableViewAtIndex:(NSInteger)index{
@@ -74,12 +93,16 @@
     NSArray *arr = @[@"动态",@"文章",@"更多"];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 200, kScreenWidth, 60)];
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor whiteColor];
+    view.layer.borderWidth = 1.0f;
+    view.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    CGFloat space = (kScreenWidth - 120) / 6;
     for (int i = 0; i < 3; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.backgroundColor = [UIColor greenColor];
+        [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn setTitle:arr[i] forState:UIControlStateNormal];
-        btn.frame = CGRectMake(40 + 120 * i, 10, 50, 40);
+        btn.frame = CGRectMake(space + (2*space + 40) * i, 0, 40, 60);
         [btn addTarget:self action:@selector(changView:) forControlEvents:UIControlEventTouchUpInside];
         btn.tag = 1000 + i;
         [view addSubview:btn];
@@ -89,28 +112,19 @@
 
 -(void)changView:(UIButton *)btn{
 
-    switch (btn.tag) {
-        case 1000:{
-        
-            [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-        }
-            
-            break;
-        case 1001:{
-        
-            [self.scrollView setContentOffset:CGPointMake(kScreenWidth, 0) animated:YES];
-        }
-            
-            break;
-        case 1002:
-            {
-                
-                [self.scrollView setContentOffset:CGPointMake(2 * kScreenWidth, 0) animated:YES];
-            }
-            break;
-        
-        default:
-            break;
+    NSInteger index = btn.tag - 1000;
+    [self.scrollView setContentOffset:CGPointMake(index * kScreenWidth, 0) animated:NO];
+}
+
+#pragma mark -- UITableView代理
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    if (tableView.tag == 2000) {
+        return 130;
+    }else if(tableView.tag == 2001){
+        return 150;
+    }else{
+        return 60;
     }
 }
 
@@ -126,11 +140,11 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"zxd"];
     }
     if (tableView.tag == 2000) {
-        cell.contentView.backgroundColor = [UIColor orangeColor];
+        cell.textLabel.text = [NSString stringWithFormat:@"%ld 发表了文章",(long)indexPath.row];
     }else if(tableView.tag == 2001){
-        cell.contentView.backgroundColor = [UIColor greenColor];
+        cell.textLabel.text = [NSString stringWithFormat:@"关于%ld的文章",(long)indexPath.row];
     }else{
-        cell.contentView.backgroundColor = [UIColor blueColor];
+        cell.textLabel.text = @"喜欢的文章";
     }
     return cell;
 }
@@ -168,15 +182,23 @@
 
 -(void)setTableViewContentOffsetWithTag:(NSInteger)tag contentOffset:(CGFloat)offset{
 
+    CGFloat tableViewOffset = offset;
+    if(offset > 200){
+        
+        tableViewOffset = 200;
+    }
     if (tag == 2000) {
-        [self.tableView2 setContentOffset:CGPointMake(0, offset) animated:NO];
-        [self.tableView3 setContentOffset:CGPointMake(0, offset) animated:NO];
+        
+        [self.tableView2 setContentOffset:CGPointMake(0, tableViewOffset) animated:NO];
+        [self.tableView3 setContentOffset:CGPointMake(0, tableViewOffset) animated:NO];
     }else if(tag == 2001){
-        [self.tableView1 setContentOffset:CGPointMake(0, offset) animated:NO];
-        [self.tableView3 setContentOffset:CGPointMake(0, offset) animated:NO];
+        
+        [self.tableView1 setContentOffset:CGPointMake(0, tableViewOffset) animated:NO];
+        [self.tableView3 setContentOffset:CGPointMake(0, tableViewOffset) animated:NO];
     }else{
-        [self.tableView1 setContentOffset:CGPointMake(0, offset) animated:NO];
-        [self.tableView2 setContentOffset:CGPointMake(0, offset) animated:NO];
+        
+        [self.tableView1 setContentOffset:CGPointMake(0, tableViewOffset) animated:NO];
+        [self.tableView2 setContentOffset:CGPointMake(0, tableViewOffset) animated:NO];
     }
 }
 
